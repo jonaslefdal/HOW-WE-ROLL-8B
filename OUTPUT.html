@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+  <html lang="no">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="style/navbar.css">
+
+        <title>OUTPUT</title>
+
+        <style>
+            canvas {
+                overflow: visible;
+
+            }
+            .center {
+                margin: 0 auto;
+                text-align: center;
+                width: 500px;
+            }
+            h2 {
+                margin-bottom: -50px;
+                margin-top: 20px;
+                padding: 0;
+            }
+
+
+
+        </style>
+
+
+  </head>
+  <body >
+    <div class="navbar">
+        <div class="nav">
+        <a href="INPUT.html">WEB-FORM</a>
+        <a href="OUTPUT.html">WEB-RAPPORT</a>
+        </div>
+        </div>
+
+    <div class="center">
+        <h2>Når står du opp?</h2>
+    <canvas style="background-color:none" id="canvas1" width="500px" height="auto"></canvas>
+    <h2>Hvordan liker du å jobbe?</h2>
+    <canvas style="background-color:none" id="canvas2" width="500px" height="auto"></canvas>
+    <h2>Hvordan løser du konfliker?</h2>
+    <canvas style="background-color:none" id="canvas3" width="500px" height="auto"></canvas>
+    <h2>Hvordan er tankeprossesen din?</h2>
+    <canvas style="background-color:none" id="canvas4" width="500px" height="auto"></canvas>
+    <h2>Når ønsker du å bli kontaktet?</h2>
+    <canvas style="background-color:none" id="canvas5" width="500px" height="auto"></canvas>
+    <h2>Hvordan ønsker du å diskutere oppgaver?</h2>
+    <canvas style="background-color:none" id="canvas6" width="500px" height="auto"></canvas>
+    <h2>Ønsker du å jobbe etter en timeplan?</h2>
+    <canvas style="background-color:none" id="canvas7" width="500px" height="auto"></canvas>
+
+</div>
+    
+<script>
+    Promise.all([
+fetch('https://bacit.info/hwr/20221110214217-646ac80812b7ffee8bd8145ec57d6b22.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110214838-31d2a03bd1c5883aa64e4f4b45d3e7b1.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110214908-21e2faed82d28648ba1a74e363da1f91.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110214919-a4d6aaceb1a71efd8a8a5c28b977a418.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110214945-95bf1c313c67bf4db786ca7746ee22b8.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110214957-ab22d1234e5e2e5915250c836e1d8952.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110215007-7b851c47b2b3096184c455a29a1ffcb9.json').then(resp => resp.json()),
+fetch('https://bacit.info/hwr/20221110215039-bccf4a0ef41d3405b1cbd7445e9594ce.json').then(resp => resp.json()),
+
+
+])
+        .then((data) => {
+          console.log('Success:', data);
+          let fulldata = data.length;
+          for (let i = 0; i < fulldata; i++) {
+
+
+var canvas1 = document.getElementById('canvas1');
+const canvas1_ctx = canvas1.getContext("2d");
+canvas1_ctx.moveTo(50, 100);
+canvas1_ctx.lineTo(450, 100);
+canvas1_ctx.stroke();
+canvas1_ctx.beginPath();
+canvas1_ctx.arc(data[i].tid,100, 8, 0, 2 * Math.PI, false);
+canvas1_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas1_ctx.fill();
+canvas1_ctx.lineWidth = 2;
+canvas1_ctx.strokeStyle = 'black';
+canvas1_ctx.stroke();
+
+var canvas2 = document.getElementById('canvas2');
+const canvas2_ctx = canvas2.getContext("2d");
+canvas2_ctx.moveTo(50, 100);
+canvas2_ctx.lineTo(450, 100);
+canvas2_ctx.stroke();
+canvas2_ctx.beginPath();
+canvas2_ctx.arc(data[i].jobb, 100, 8, 0, 2 * Math.PI, false);
+canvas2_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas2_ctx.fill();
+canvas2_ctx.lineWidth = 2;
+canvas2_ctx.strokeStyle = 'black';
+canvas2_ctx.stroke();
+
+var canvas3 = document.getElementById('canvas3');
+const canvas3_ctx = canvas3.getContext("2d");
+canvas3_ctx.moveTo(50, 100);
+canvas3_ctx.lineTo(450, 100);
+canvas3_ctx.stroke();
+canvas3_ctx.beginPath();
+canvas3_ctx.arc(data[i].konflikt, 100, 8, 0, 2 * Math.PI, false);
+canvas3_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas3_ctx.fill();
+canvas3_ctx.lineWidth = 2;
+canvas3_ctx.strokeStyle = 'black';
+canvas3_ctx.stroke();
+
+var canvas4 = document.getElementById('canvas4');
+const canvas4_ctx = canvas4.getContext("2d");
+canvas4_ctx.moveTo(50, 100);
+canvas4_ctx.lineTo(450, 100);
+canvas4_ctx.stroke();
+canvas4_ctx.beginPath();
+canvas4_ctx.arc(data[i].oppgave, 100, 8, 0, 2 * Math.PI, false);
+canvas4_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas4_ctx.fill();
+canvas4_ctx.lineWidth = 2;
+canvas4_ctx.strokeStyle = 'black';
+canvas4_ctx.stroke();
+
+var canvas5 = document.getElementById('canvas5');
+const canvas5_ctx = canvas5.getContext("2d");
+canvas5_ctx.moveTo(50, 100);
+canvas5_ctx.lineTo(450, 100);
+canvas5_ctx.stroke();
+canvas5_ctx.beginPath();
+canvas5_ctx.arc(data[i].kontakt, 100, 8, 0, 2 * Math.PI, false);
+canvas5_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas5_ctx.fill();
+canvas5_ctx.lineWidth = 2;
+canvas5_ctx.strokeStyle = 'black';
+canvas5_ctx.stroke();
+
+var canvas6 = document.getElementById('canvas6');
+const canvas6_ctx = canvas6.getContext("2d");
+canvas6_ctx.moveTo(50, 100);
+canvas6_ctx.lineTo(450, 100);
+canvas6_ctx.stroke();
+canvas6_ctx.beginPath();
+canvas6_ctx.arc(data[i].diskutere, 100, 8, 0, 2 * Math.PI, false);
+canvas6_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas6_ctx.fill();
+canvas6_ctx.lineWidth = 2;
+canvas6_ctx.strokeStyle = 'black';
+canvas6_ctx.stroke();
+
+var canvas7 = document.getElementById('canvas7');
+const canvas7_ctx = canvas7.getContext("2d");
+canvas7_ctx.moveTo(50, 100);
+canvas7_ctx.lineTo(450, 100);
+canvas7_ctx.stroke();
+canvas7_ctx.beginPath();
+canvas7_ctx.arc(data[i].timeplan, 100, 8, 0, 2 * Math.PI, false);
+canvas7_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+canvas7_ctx.fill();
+canvas7_ctx.lineWidth = 2;
+canvas7_ctx.strokeStyle = 'black';
+canvas7_ctx.stroke();
+}
+
+                
+});
+  
+
+
+
+
+
+    </script>
+
+
+  </body>
+  </html>

@@ -1,0 +1,38 @@
+body {
+    padding: 0;
+    margin: 20px;
+    text-align: center;
+    overflow: scroll;
+}
+.navbar {
+    width: 25%;
+    background-color: #006dee;
+    position: relative;
+    top: 0;
+    display: flex;
+    margin: 0 auto;
+
+}
+.navbar .nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+}
+/* Styler navbar <a> elementene */
+.navbar .nav a {
+    font: 700 18px/1.3 DinPro,Arial,sans-serif;
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 0 auto;
+    width: 50%;
+    border-right: 1px solid #005cc8;
+    padding: 15px;
+    text-align: center;
+}
+.navbar .nav a:hover, 
+.navbar a.right:hover {
+  color: rgba(245, 245, 245, 0.767);
+  transition: .45s ease;
+}
