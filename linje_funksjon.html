@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+  <html lang="no">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+
+<title>strek</title>
+
+        <style>
+          #canvas2 {
+            z-index: 1;
+          }
+</style>
+
+
+  </head>
+  <body >
+        <canvas height="1000px" width="1000px" id="canvas2"></canvas>
+<script>
+
+function drawDashedLine() {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas2');
+  var ctx = canvas.getContext("2d");
+  // Draw the lines
+  ctx.beginPath();
+  ctx.moveTo(40, 100);
+  ctx.lineTo(460, 100);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.closePath();
+}
+drawDashedLine()
+    </script>
+
+
+  </body>
+  </html>
