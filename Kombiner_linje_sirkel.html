@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+  <html lang="no">
+  <head>
+
+    <style>
+      canvas {
+        position: absolute;
+      }
+
+    </style>
+    
+<title>sirkel</title>
+  </head>
+  <body >
+        <canvas height="1000px" width="1000px" id="canvas"></canvas>
+        <canvas height="1000px" width="1000px" id="canvas2"></canvas>
+<script>
+
+function drawCircle() {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext("2d");
+  // Draw the circle using the x and y coordinates and the specified color
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.fillStyle = 'black';
+  ctx.strokeStyle = 'black';
+  ctx.arc(100, 100, 8, 0, Math.PI*2, true);
+  ctx.stroke();
+  ctx.fill();
+  ctx.closePath();
+}
+drawCircle()
+function drawDashedLine() {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas2');
+  var ctx = canvas.getContext("2d");
+  // Draw the lines
+  ctx.beginPath();
+  ctx.moveTo(40, 100);
+  ctx.lineTo(460, 100);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.closePath();
+}
+drawDashedLine()
+    </script>
+
+
+
+
+  </body>
+  </html>
