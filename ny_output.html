@@ -83,11 +83,31 @@ function drawDashedLine(y) {
   ctx.stroke();
   ctx.closePath();
 }
+function drawHeader(header, y) {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext("2d");
+  // Calculate the x-coordinate for the text
+  var textWidth = ctx.measureText(header).width;
+  var textX = (520 - textWidth) / 2;
+  // Draw the header using the specified y and x coordinate
+  ctx.beginPath();
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText(header, textX, y -15);
+  ctx.closePath();
+}
+
+let header = ["Når står du opp?", "Hvordan liker du å jobbe?",
+"Hvordan løser du konfliker?","Hvordan er tankeprossesen din?",
+"Når ønsker du å bli kontaktet?","Hvordan ønsker du å diskutere oppgaver?",
+"Ønsker du å jobbe etter en timeplan?"];
 
 let y2 = 150;
 for (let i = 0; i < data.length; i++) {
     let color = colors[i];
     let y = 150;
+    let j = 0;
 
     drawCircle(600, y2, color, data[i].navn);
     y2 += 20;
@@ -99,9 +119,12 @@ for (let i = 0; i < data.length; i++) {
     if (property === "navn" || property === "trxid" || property === "time") continue;
     // Call drawDashedLine() with the current y coordinate
     let x = element[property];
+    let headerString = header[j];
 
+    drawHeader(headerString, y);
     drawDashedLine(y);
     drawCircle(x, y, color, "");
+    j += 1;
     // Increment the y coordinate for the next iteration
     y += 100;
   }  
