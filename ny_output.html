@@ -64,7 +64,6 @@ function drawDashedLine(y) {
   ctx.stroke();
   ctx.closePath();
 }
-
 for (let i = 0; i < data.length; i++) {
     let y = 150;
   // Get the current element
@@ -72,8 +71,10 @@ for (let i = 0; i < data.length; i++) {
   
   // Iterate over the properties of the current element
   for (let property in element) {
+    if (property === "navn" || property === "trxid" || property === "time") continue;
     // Call drawDashedLine() with the current y coordinate
     let x = element[property];
+
     drawDashedLine(y);
     drawCircle(x, y);
     // Increment the y coordinate for the next iteration
