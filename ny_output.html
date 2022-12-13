@@ -28,20 +28,15 @@
     
 <script>
     //Henter all daten sendt inn fra input siden fra serveren 
-    Promise.all([
-fetch('https://bacit.info/hwr/20221110214217-646ac80812b7ffee8bd8145ec57d6b22.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214838-31d2a03bd1c5883aa64e4f4b45d3e7b1.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214908-21e2faed82d28648ba1a74e363da1f91.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214919-a4d6aaceb1a71efd8a8a5c28b977a418.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214945-95bf1c313c67bf4db786ca7746ee22b8.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214957-ab22d1234e5e2e5915250c836e1d8952.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110215007-7b851c47b2b3096184c455a29a1ffcb9.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110215039-bccf4a0ef41d3405b1cbd7445e9594ce.json').then(resp => resp.json()),
-
-
-])
-        .then((data) => {
-          console.log('Success:', data);
+    const urls = ["https://bacit.info/hwr/20221212230609-8639e31a8793c3000ab5d9fb8900c905.json",
+              "https://bacit.info/hwr/20221212230622-ca01c7442d57bcb838a59d34a461bbeb.json",
+              "https://bacit.info/hwr/20221212230638-dcd1426e46d369f1aca42f267711e9f8.json",
+              "https://bacit.info/hwr/20221212230704-68dd675a38d46c0b022efb9f9eb87643.json",
+              "https://bacit.info/hwr/20221212230718-89673f240a7234220defb3b8fc4f3628.json",
+];
+Promise.all(urls.map(url =>
+    fetch(url).then(resp => resp.json())
+)).then(data => {
 
 function drawCircle(x, y) {
   // Get the canvas element and its 2D context
@@ -69,11 +64,21 @@ function drawDashedLine(y) {
   ctx.stroke();
   ctx.closePath();
 }
-let y = 150;
+
 for (let i = 0; i < data.length; i++) {
-  drawDashedLine(y)
-  drawCircle(data[i].tid, y);
+    let y = 150;
   // Get the current element
+  let element = data[i];
+  
+  // Iterate over the properties of the current element
+  for (let property in element) {
+    // Call drawDashedLine() with the current y coordinate
+    let x = element[property];
+    drawDashedLine(y);
+    drawCircle(x, y);
+    // Increment the y coordinate for the next iteration
+    y += 100;
+  }  
 }
 
 });
