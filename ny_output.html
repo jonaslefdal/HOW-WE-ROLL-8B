@@ -15,6 +15,9 @@
                 text-align: center;
                 width: 500px;
             }
+            #canvas {
+                z-index: 100;
+            }
 
         </style>
 
@@ -38,14 +41,28 @@ Promise.all(urls.map(url =>
     fetch(url).then(resp => resp.json())
 )).then(data => {
 
-function drawCircle(x, y) {
+    let colors = []
+    for (let j = 0; j < data.length; j++) {
+    // Generate random red, green, and blue values
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    let color = "rgb(" + red + "," + green + "," + blue + ")";
+    // Check if the color already exists in the array
+    if (!colors.includes(color)) {
+        // Add the color if it doesn't exist
+        colors.push(color)
+    }
+}
+
+function drawCircle(x, y, color) {
   // Get the canvas element and its 2D context
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
   // Draw the circle using the x and y coordinates and the specified color
   ctx.beginPath();
   ctx.lineWidth = 2;
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = color;
   ctx.strokeStyle = 'black';
   ctx.arc(x, y, 8, 0, Math.PI*2, true);
   ctx.stroke();
@@ -65,6 +82,7 @@ function drawDashedLine(y) {
   ctx.closePath();
 }
 for (let i = 0; i < data.length; i++) {
+    let color = colors[i];
     let y = 150;
   // Get the current element
   let element = data[i];
@@ -76,7 +94,7 @@ for (let i = 0; i < data.length; i++) {
     let x = element[property];
 
     drawDashedLine(y);
-    drawCircle(x, y);
+    drawCircle(x, y, color);
     // Increment the y coordinate for the next iteration
     y += 100;
   }  
