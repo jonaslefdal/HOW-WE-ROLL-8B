@@ -55,7 +55,7 @@ Promise.all(urls.map(url =>
     }
 }
 
-function drawCircle(x, y, color) {
+function drawCircle(x, y, color, name) {
   // Get the canvas element and its 2D context
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
@@ -65,6 +65,8 @@ function drawCircle(x, y, color) {
   ctx.fillStyle = color;
   ctx.strokeStyle = 'black';
   ctx.arc(x, y, 8, 0, Math.PI*2, true);
+  ctx.font = "16px Arial";
+  ctx.fillText(name, 620, y+5);
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
@@ -81,9 +83,14 @@ function drawDashedLine(y) {
   ctx.stroke();
   ctx.closePath();
 }
+
+let y2 = 150;
 for (let i = 0; i < data.length; i++) {
     let color = colors[i];
     let y = 150;
+
+    drawCircle(600, y2, color, data[i].navn);
+    y2 += 20;
   // Get the current element
   let element = data[i];
   
@@ -94,7 +101,7 @@ for (let i = 0; i < data.length; i++) {
     let x = element[property];
 
     drawDashedLine(y);
-    drawCircle(x, y, color);
+    drawCircle(x, y, color, "");
     // Increment the y coordinate for the next iteration
     y += 100;
   }  
