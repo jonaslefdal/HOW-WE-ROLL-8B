@@ -43,7 +43,7 @@ fetch('https://bacit.info/hwr/20221110215039-bccf4a0ef41d3405b1cbd7445e9594ce.js
         .then((data) => {
           console.log('Success:', data);
 
-function drawCircle() {
+function drawCircle(x, y) {
   // Get the canvas element and its 2D context
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
@@ -52,25 +52,29 @@ function drawCircle() {
   ctx.lineWidth = 2;
   ctx.fillStyle = 'black';
   ctx.strokeStyle = 'black';
-  ctx.arc(100, 100, 8, 0, Math.PI*2, true);
+  ctx.arc(x, y, 8, 0, Math.PI*2, true);
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
 }
-drawCircle()
-function drawDashedLine() {
+function drawDashedLine(y) {
   // Get the canvas element and its 2D context
   var canvas = document.getElementById('canvas2');
   var ctx = canvas.getContext("2d");
   // Draw the lines
   ctx.beginPath();
-  ctx.moveTo(40, 100);
-  ctx.lineTo(460, 100);
+  ctx.moveTo(40, y);
+  ctx.lineTo(460, y);
   ctx.strokeStyle = 'black';
   ctx.stroke();
   ctx.closePath();
 }
-drawDashedLine()
+let y = 150;
+for (let i = 0; i < data.length; i++) {
+  drawDashedLine(y)
+  drawCircle(data[i].tid, y);
+  // Get the current element
+}
 
 });
   
