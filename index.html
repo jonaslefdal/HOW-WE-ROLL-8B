@@ -8,57 +8,65 @@
     <title>INPUT</title>
 
     <style>
-        .slidecontainer {
-          width: 25%;
-          margin: 0 auto;
-          text-align: center;
-        }
-        
-        .slider {
-          width: 100%;
-          height: 15px;
-          border-radius: 5px;
-          background: #d3d3d3;
-          outline: none;
-          opacity: 0.7;
-          transition: opacity .2s;
+      form {
+        width: 25%;
+        margin: 0 auto;
+      }
+      button {
+        padding: 5px;
+        display: block;
+        margin: 0 auto;
+      }
+      input[type=text] {
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+        height: 15px;
+      }
+      
+      input[type=range] {
+        width: 100%;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
 
-        }
-        
-        .slider:hover {
-          opacity: 1;
-        }
-        
-        .slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-          background: #04AA6D;
-          cursor: pointer;
-        }
-        .innertall {
-            width:33.33%;
-            margin: 0; padding: 0;
+      }
+      
+      input[type=range]:hover {
+        opacity: 1;
+      }
+      
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #04AA6D;
+        cursor: pointer;
+      }
+      .innertall {
+          width:48%;
+          margin: 1%; 
+          padding: 0;
+          display: inline-block;
+          text-align: start;
 
-            display: inline-block;
-
-        }
-        .innertall2 {
-            width: 50%;
-            margin: 0; padding: 0;
-
-            display: inline-block;
-
-        }
-        .tall {
-            width: 100%;
-            
-        }
-        
-
-        </style>
+      }
+      .innertall2 {
+          width: 48%;
+          text-align: end;
+          margin: 1%;
+          padding: 0;
+          display: inline-block;
+      }
+      h1, h4 {
+        text-align: center;
+      }
+      </style>
 </head>
 <body>
 
@@ -71,31 +79,45 @@
 
     <h1>INPUT</h1>
 
-    <div class="slidecontainer">
+    <form>
+      <h4>Hva er ditt navn?</h4>
+      <input type="text" max="10" placeholder="Ola Ullsokk" id="navn">
         <h4>Når står du opp?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="tid">
-        <div id="tall"><div class="innertall">> 08:00 </div><div class="innertall">10:00</div><div class="innertall">12:00 <</div></div>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider1">
+        <div class="innertall"> 08:00 </div><div class="innertall2">12:00</div>
         <h4>Hvordan liker du å jobbe?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="jobb">
-        <div id="tall"><div class="innertall2">> Liker å jobbe med andre </div><div class="innertall2">Liker å jobbe alene <</div></div>
-        <h4>Hvordan løser du konfliker?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="konflikt">
-        <div id="tall"><div class="innertall2">> Snakke om det </div><div class="innertall2">Gå fremmover <</div></div>
-        <h4>Hvordan er tankeprossesen din?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="oppgave">
-        <div id="tall"><div class="innertall2">> Snakke om den </div><div class="innertall2">Tenke selv <</div></div>
-        <h4>Når ønsker du å bli kontaktet?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="kontakt">
-        <div id="tall"><div class="innertall2">> Oppsatt møte </div><div class="innertall2">Ring når du vil <</div></div>
-        <h4>Hvordan ønsker du å diskutere oppgaver?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="diskutere">
-        <div id="tall"><div class="innertall2">> Video møter </div><div class="innertall2">Tekst <</div></div>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider2">
+        <div class="innertall"> Alene </div><div class="innertall2">Med andre</div>
+        <h4>Hvor godt ønsker du å bli kjent med andre?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider3">
+        <div class="innertall"> Fortell alt </div><div class="innertall2">Til poenget</div>
+        <h4>Hvordan ønsker du å løse konfliker?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider4">
+        <div class="innertall"> Ta det opp </div><div class="innertall2">Gå fremmover</div>
+        <h4>Hvordan ønsker du å ha kontakt?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider5">
+        <div class="innertall"> Oppsatt møte </div><div class="innertall2">Ring når du vil </div>
+        <h4>Hvordan vil du diskutere oppgaver utenfor jobb</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider6">
+        <div class="innertall"> Video møter </div><div class="innertall2">Tekst </div>
         <h4>Ønsker du å jobbe etter en timeplan?</h4>
-        <input type="range" min="50" max="450" value="250" class="slider" id="timeplan">
-        <div id="tall"><div class="innertall2">> 09:00-16:00 </div><div class="innertall2">Ingen oppsatt tid <</div></div>
-<br>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider7">
+        <div class="innertall"> Normal 9 til 4 </div><div class="innertall2">Når det passer </div>
+        <h4>Når pleier du å legge deg?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider8">
+        <div class="innertall"> 21:00 </div><div class="innertall2">02:00 </div>
+        <h4>Liker du å lære av andre eller deg selv?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider9">
+        <div class="innertall"> Lære deg selv </div><div class="innertall2">Lære av andre </div>
+        <h4>Når pleier du å fullføre oppgaver?</h4>
+        <input type="range" min="50" max="450" value="250" class="slider" id="slider10">
+        <div class="innertall"> God tid før fristen </div><div class="innertall2">Rett før fristen </div>
+        <br>
+        <a href="" id="link"></a>
+        <br>
+        <br>
+</form>
         <button onclick=send()>SEND</button>
-      </div>
 <a href="" id="link"></h4>
 
   <script>
@@ -103,22 +125,30 @@
 // Update the current slider value (each time you drag the slider handle)
 
     function send() {
-        var tid = document.getElementById("tid").value;
-        var jobb = document.getElementById("jobb").value;
-        var konflikt = document.getElementById("konflikt").value;
-        var oppgave = document.getElementById("oppgave").value;
-        var kontakt = document.getElementById("kontakt").value;
-        var diskutere = document.getElementById("diskutere").value;
-        var timeplan = document.getElementById("timeplan").value;
+        var navn = document.getElementById("navn").value;
+        var slider1 = document.getElementById("slider1").value;
+        var slider2 = document.getElementById("slider2").value;
+        var slider3 = document.getElementById("slider3").value;
+        var slider4 = document.getElementById("slider4").value;
+        var slider5 = document.getElementById("slider5").value;
+        var slider6 = document.getElementById("slider6").value;
+        var slider7 = document.getElementById("slider7").value;
+        var slider8 = document.getElementById("slider8").value;
+        var slider9 = document.getElementById("slider9").value;
+        var slider10 = document.getElementById("slider10").value;
        
           const json = {
-              tid: tid,
-              jobb: jobb,
-              konflikt: konflikt,
-              oppgave: oppgave,
-              kontakt: kontakt,
-              diskutere: diskutere,
-              timeplan: timeplan,
+            navn: navn,
+              kategori1: slider1,
+              kategori2: slider2,
+              kategori3: slider3,
+              kategori4: slider4,
+              kategori5: slider5,
+              kategori6: slider6,
+              kategori7: slider7,
+              kategori8: slider8,
+              kategori9: slider9,
+              kategori10: slider10,
         };
 
         fetch("https://bacit.info/", {
