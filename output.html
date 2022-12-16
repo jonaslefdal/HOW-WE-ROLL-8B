@@ -97,11 +97,29 @@ function drawHeader(header, y) {
   ctx.fillText(header, textX, y -15);
   ctx.closePath();
 }
+function drawText(tekst, x, y) {
+  // Get the canvas element and its 2D context
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  ctx.font = "15px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText(tekst, x, y + 25);
+  ctx.closePath();
+}
+function drawHeaderAndText(header, text_left, text_right, y) {
+  drawDashedLine(y);
+  drawHeader(header, y);
+  drawText(text_left, 43, y);
+  drawText(text_right, 400, y);
+}
 
 let header = ["Når står du opp?", "Hvordan liker du å jobbe?",
 "Hvordan løser du konfliker?","Hvordan er tankeprossesen din?",
 "Når ønsker du å bli kontaktet?","Hvordan ønsker du å diskutere oppgaver?",
 "Ønsker du å jobbe etter en timeplan?"];
+let text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "Sammen"];
+let text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer"];
 
 let y2 = 150;
 for (let i = 0; i < data.length; i++) {
@@ -121,7 +139,7 @@ for (let i = 0; i < data.length; i++) {
     let x = element[property];
     let headerString = header[j];
 
-    drawHeader(headerString, y);
+    drawHeaderAndText(header[j], text_left[j], text_right[j], y);
     drawDashedLine(y);
     drawCircle(x, y, color, "");
     j += 1;
