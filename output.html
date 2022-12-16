@@ -7,35 +7,37 @@
         <title>OUTPUT</title>
 
         <style>
-      canvas {
-        position: absolute;
-      }
-            .center {
-                margin: 0 auto;
-                text-align: center;
-                width: 500px;
-            }
             #canvas {
-                z-index: 100;
-            }
+            position: absolute;
+            z-index: 2; 
+            left: 50%;
+            transform: translateX(-50%);
 
+            }
+            #canvas2 {
+            position: absolute;
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+            }
+            h1 {
+              text-align: center;
+              margin-bottom: -50px;
+
+            }
         </style>
 
 
   </head>
   <body >
-
+    <h1>INPUT</h1>
         <!--Her brukes div id center over canvas elementene for å plassere de i midten-->
     <canvas width="1000px" height="1000px" id="canvas"></canvas>
     <canvas width="1000px" height="1000px" id="canvas2"></canvas>
     
 <script>
     //Henter all daten sendt inn fra input siden fra serveren 
-    const urls = ["https://bacit.info/hwr/20221212230609-8639e31a8793c3000ab5d9fb8900c905.json",
-              "https://bacit.info/hwr/20221212230622-ca01c7442d57bcb838a59d34a461bbeb.json",
-              "https://bacit.info/hwr/20221212230638-dcd1426e46d369f1aca42f267711e9f8.json",
-              "https://bacit.info/hwr/20221212230704-68dd675a38d46c0b022efb9f9eb87643.json",
-              "https://bacit.info/hwr/20221212230718-89673f240a7234220defb3b8fc4f3628.json",
+    const urls = ["https://bacit.info/hwr/20221216160432-c18e33f407554587c6b501c6de85ec64.json",
 ];
 Promise.all(urls.map(url =>
     fetch(url).then(resp => resp.json())
@@ -115,33 +117,63 @@ function drawHeaderAndText(header, text_left, text_right, y) {
 }
 
 let header = ["Når står du opp?", "Hvordan liker du å jobbe?",
-"Hvordan løser du konfliker?","Hvordan er tankeprossesen din?",
-"Når ønsker du å bli kontaktet?","Hvordan ønsker du å diskutere oppgaver?",
-"Ønsker du å jobbe etter en timeplan?"];
-let text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "Sammen"];
-let text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer"];
+"Hvor godt ønsker du å bli kjent med andre?","Hvordan ønsker du å løse konfliker?",
+"Hvordan ønsker du å ha kontakt?","Hvordan vil du diskutere oppgaver utenfor jobb",
+"Ønsker du å jobbe etter en timeplan?", "Når pleier du å legge deg?","Liker du å lære av andre eller deg selv?",
+"Når pleier du å fullføre oppgaver?"];
+let text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "21:00","Lære deg selv","God tid før fristen"];
+let text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer","02:00","Lære av andre","Rett før fristen"];
 
 let y2 = 150;
-for (let i = 0; i < data.length; i++) {
-    let color = colors[i];
-    let y = 150;
+const xOffsets = {};
+const offset = 6;
 
-    drawCircle(600, y2, color, data[i].navn);
-    y2 += 20;
-  // Get the current element
-  let element = data[i];
+
+// Initialize xOffsets with keys and values of all objects in the first element
+for (let object in data[0]) {
+  if (object === "navn" || object === "trxid" || object === "time") continue;
+  xOffsets[object] = {
+    value: data[0][object],
+    offset: 0,
+  };
+}
+
+for (let i = 0; i < data.length; i++) {
+  let color = colors[i];
+  let y = 150;
+
+  drawCircle(600, y2, color, data[i].navn);
+  y2 += 20;
   
-  // Iterate over the properties of the current element
-  for (let property in element) {
-    if (property === "navn" || property === "trxid" || property === "time") continue;
-    // Call drawDashedLine() with the current y coordinate
-    let x = element[property];
+  let element = data[i];
+  let processedObjects = {}; // object to store processed objects for the current element
+
+  for (let object in element) {
+    if (object === "navn" || object === "trxid" || object === "time") continue;
+  
+    // Check if object has already been processed for the current element
+    if (processedObjects[object]) continue;
+
+    let x = parseInt(element[object]);
+
+    // Loop through the rest of the data array to check for matching objects
+    for (let j = i + 1; j < data.length; j++) {
+      // Get the next object
+      const nextObject = data[j];
+
+      // Check if the current object and the next object have matching properties
+      if (element[object] === nextObject[object]) {
+        x += offset; // add the desired offset to the x position
+        break; // stop the loop once a match is found
+      }
+    }
 
     drawCircle(x, y, color, "");
-    // Increment the y coordinate for the next iteration
     y += 100;
-  }  
+    processedObjects[object] = true; // mark object as processed for the current element
+  }
 }
+
 const objectLength = Object.keys(data[0]).length - 3;
   let y = 150;
   for (let i = 0; i < objectLength; i++) {
@@ -154,11 +186,6 @@ const objectLength = Object.keys(data[0]).length - 3;
 }
 
 });
-  
-
-
-
-
 
     </script>
 
