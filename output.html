@@ -46,6 +46,9 @@
 <script>
     //Henter all daten sendt inn fra input siden fra serveren 
     const urls = ["https://bacit.info/hwr/20221216160432-c18e33f407554587c6b501c6de85ec64.json",
+                "https://bacit.info/hwr/20221216164937-5cbeed814645a4b1e00b245abae1c34f.json",
+                "https://bacit.info/hwr/20221216170544-9e5322451206ca9ef7b8e459fb8c044d.json",
+                
 ];
 Promise.all(urls.map(url =>
     fetch(url).then(resp => resp.json())
