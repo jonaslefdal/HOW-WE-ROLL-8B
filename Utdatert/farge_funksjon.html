@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+  <html lang="no">
+  <head>
+  </head>
+  <body >
+    <script>
+let colors = []
+
+for (let j = 0; j < 10; j++) {
+    // Generate random red, green, and blue values
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    let color = "rgb(" + red + "," + green + "," + blue + ")";
+    // Check if the color already exists in the array
+    if (!colors.includes(color)) {
+        // Add the color if it doesn't exist
+        colors.push(color)
+    }
+}
+console.log(colors)
+</script>
+  </body>
+  </html>
