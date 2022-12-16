@@ -125,7 +125,6 @@ let y2 = 150;
 for (let i = 0; i < data.length; i++) {
     let color = colors[i];
     let y = 150;
-    let j = 0;
 
     drawCircle(600, y2, color, data[i].navn);
     y2 += 20;
@@ -137,15 +136,21 @@ for (let i = 0; i < data.length; i++) {
     if (property === "navn" || property === "trxid" || property === "time") continue;
     // Call drawDashedLine() with the current y coordinate
     let x = element[property];
-    let headerString = header[j];
 
-    drawHeaderAndText(header[j], text_left[j], text_right[j], y);
-    drawDashedLine(y);
     drawCircle(x, y, color, "");
-    j += 1;
     // Increment the y coordinate for the next iteration
     y += 100;
   }  
+}
+const objectLength = Object.keys(data[0]).length - 3;
+  let y = 150;
+  for (let i = 0; i < objectLength; i++) {
+
+        drawHeaderAndText(header[i], text_left[i], text_right[i], y);
+        drawDashedLine(y);
+
+        // Increment the y coordinate for the next iteration
+        y += 100;
 }
 
 });
