@@ -3,170 +3,151 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="style/navbar.css">
 
         <title>OUTPUT</title>
 
         <style>
-            canvas {
-                overflow: visible;
-
-            }
+      canvas {
+        position: absolute;
+      }
             .center {
                 margin: 0 auto;
                 text-align: center;
                 width: 500px;
             }
-            h2 {
-                margin-bottom: -50px;
-                margin-top: 20px;
-                padding: 0;
+            #canvas {
+                z-index: 100;
             }
-
-
 
         </style>
 
 
   </head>
   <body >
-    <div class="navbar">
-        <div class="nav">
-        <a href="index.html">WEB-FORM</a>
-        <a href="output.html">WEB-RAPPORT</a>
-        </div>
-        </div>
 
-    <div class="center">
-        <h2>Når står du opp?</h2>
-    <canvas style="background-color:none" id="canvas1" width="500px" height="auto"></canvas>
-    <h2>Hvordan liker du å jobbe?</h2>
-    <canvas style="background-color:none" id="canvas2" width="500px" height="auto"></canvas>
-    <h2>Hvordan løser du konfliker?</h2>
-    <canvas style="background-color:none" id="canvas3" width="500px" height="auto"></canvas>
-    <h2>Hvordan er tankeprossesen din?</h2>
-    <canvas style="background-color:none" id="canvas4" width="500px" height="auto"></canvas>
-    <h2>Når ønsker du å bli kontaktet?</h2>
-    <canvas style="background-color:none" id="canvas5" width="500px" height="auto"></canvas>
-    <h2>Hvordan ønsker du å diskutere oppgaver?</h2>
-    <canvas style="background-color:none" id="canvas6" width="500px" height="auto"></canvas>
-    <h2>Ønsker du å jobbe etter en timeplan?</h2>
-    <canvas style="background-color:none" id="canvas7" width="500px" height="auto"></canvas>
-
-</div>
+        <!--Her brukes div id center over canvas elementene for å plassere de i midten-->
+    <canvas width="1000px" height="1000px" id="canvas"></canvas>
+    <canvas width="1000px" height="1000px" id="canvas2"></canvas>
     
 <script>
-    Promise.all([
-fetch('https://bacit.info/hwr/20221110214217-646ac80812b7ffee8bd8145ec57d6b22.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214838-31d2a03bd1c5883aa64e4f4b45d3e7b1.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214908-21e2faed82d28648ba1a74e363da1f91.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214919-a4d6aaceb1a71efd8a8a5c28b977a418.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214945-95bf1c313c67bf4db786ca7746ee22b8.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110214957-ab22d1234e5e2e5915250c836e1d8952.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110215007-7b851c47b2b3096184c455a29a1ffcb9.json').then(resp => resp.json()),
-fetch('https://bacit.info/hwr/20221110215039-bccf4a0ef41d3405b1cbd7445e9594ce.json').then(resp => resp.json()),
+    //Henter all daten sendt inn fra input siden fra serveren 
+    const urls = ["https://bacit.info/hwr/20221212230609-8639e31a8793c3000ab5d9fb8900c905.json",
+              "https://bacit.info/hwr/20221212230622-ca01c7442d57bcb838a59d34a461bbeb.json",
+              "https://bacit.info/hwr/20221212230638-dcd1426e46d369f1aca42f267711e9f8.json",
+              "https://bacit.info/hwr/20221212230704-68dd675a38d46c0b022efb9f9eb87643.json",
+              "https://bacit.info/hwr/20221212230718-89673f240a7234220defb3b8fc4f3628.json",
+];
+Promise.all(urls.map(url =>
+    fetch(url).then(resp => resp.json())
+)).then(data => {
 
-
-])
-        .then((data) => {
-          console.log('Success:', data);
-          let fulldata = data.length;
-          for (let i = 0; i < fulldata; i++) {
-
-
-var canvas1 = document.getElementById('canvas1');
-const canvas1_ctx = canvas1.getContext("2d");
-canvas1_ctx.moveTo(50, 100);
-canvas1_ctx.lineTo(450, 100);
-canvas1_ctx.stroke();
-canvas1_ctx.beginPath();
-canvas1_ctx.arc(data[i].tid,100, 8, 0, 2 * Math.PI, false);
-canvas1_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas1_ctx.fill();
-canvas1_ctx.lineWidth = 2;
-canvas1_ctx.strokeStyle = 'black';
-canvas1_ctx.stroke();
-
-var canvas2 = document.getElementById('canvas2');
-const canvas2_ctx = canvas2.getContext("2d");
-canvas2_ctx.moveTo(50, 100);
-canvas2_ctx.lineTo(450, 100);
-canvas2_ctx.stroke();
-canvas2_ctx.beginPath();
-canvas2_ctx.arc(data[i].jobb, 100, 8, 0, 2 * Math.PI, false);
-canvas2_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas2_ctx.fill();
-canvas2_ctx.lineWidth = 2;
-canvas2_ctx.strokeStyle = 'black';
-canvas2_ctx.stroke();
-
-var canvas3 = document.getElementById('canvas3');
-const canvas3_ctx = canvas3.getContext("2d");
-canvas3_ctx.moveTo(50, 100);
-canvas3_ctx.lineTo(450, 100);
-canvas3_ctx.stroke();
-canvas3_ctx.beginPath();
-canvas3_ctx.arc(data[i].konflikt, 100, 8, 0, 2 * Math.PI, false);
-canvas3_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas3_ctx.fill();
-canvas3_ctx.lineWidth = 2;
-canvas3_ctx.strokeStyle = 'black';
-canvas3_ctx.stroke();
-
-var canvas4 = document.getElementById('canvas4');
-const canvas4_ctx = canvas4.getContext("2d");
-canvas4_ctx.moveTo(50, 100);
-canvas4_ctx.lineTo(450, 100);
-canvas4_ctx.stroke();
-canvas4_ctx.beginPath();
-canvas4_ctx.arc(data[i].oppgave, 100, 8, 0, 2 * Math.PI, false);
-canvas4_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas4_ctx.fill();
-canvas4_ctx.lineWidth = 2;
-canvas4_ctx.strokeStyle = 'black';
-canvas4_ctx.stroke();
-
-var canvas5 = document.getElementById('canvas5');
-const canvas5_ctx = canvas5.getContext("2d");
-canvas5_ctx.moveTo(50, 100);
-canvas5_ctx.lineTo(450, 100);
-canvas5_ctx.stroke();
-canvas5_ctx.beginPath();
-canvas5_ctx.arc(data[i].kontakt, 100, 8, 0, 2 * Math.PI, false);
-canvas5_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas5_ctx.fill();
-canvas5_ctx.lineWidth = 2;
-canvas5_ctx.strokeStyle = 'black';
-canvas5_ctx.stroke();
-
-var canvas6 = document.getElementById('canvas6');
-const canvas6_ctx = canvas6.getContext("2d");
-canvas6_ctx.moveTo(50, 100);
-canvas6_ctx.lineTo(450, 100);
-canvas6_ctx.stroke();
-canvas6_ctx.beginPath();
-canvas6_ctx.arc(data[i].diskutere, 100, 8, 0, 2 * Math.PI, false);
-canvas6_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas6_ctx.fill();
-canvas6_ctx.lineWidth = 2;
-canvas6_ctx.strokeStyle = 'black';
-canvas6_ctx.stroke();
-
-var canvas7 = document.getElementById('canvas7');
-const canvas7_ctx = canvas7.getContext("2d");
-canvas7_ctx.moveTo(50, 100);
-canvas7_ctx.lineTo(450, 100);
-canvas7_ctx.stroke();
-canvas7_ctx.beginPath();
-canvas7_ctx.arc(data[i].timeplan, 100, 8, 0, 2 * Math.PI, false);
-canvas7_ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
-canvas7_ctx.fill();
-canvas7_ctx.lineWidth = 2;
-canvas7_ctx.strokeStyle = 'black';
-canvas7_ctx.stroke();
+    let colors = []
+    for (let j = 0; j < data.length; j++) {
+    // Generate random red, green, and blue values
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    let color = "rgb(" + red + "," + green + "," + blue + ")";
+    // Check if the color already exists in the array
+    if (!colors.includes(color)) {
+        // Add the color if it doesn't exist
+        colors.push(color)
+    }
 }
 
-                
+function drawCircle(x, y, color, name) {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext("2d");
+  // Draw the circle using the x and y coordinates and the specified color
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.fillStyle = color;
+  ctx.strokeStyle = 'black';
+  ctx.arc(x, y, 8, 0, Math.PI*2, true);
+  ctx.font = "16px Arial";
+  ctx.fillText(name, 620, y+5);
+  ctx.stroke();
+  ctx.fill();
+  ctx.closePath();
+}
+function drawDashedLine(y) {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas2');
+  var ctx = canvas.getContext("2d");
+  // Draw the lines
+  ctx.beginPath();
+  ctx.moveTo(40, y);
+  ctx.lineTo(460, y);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.closePath();
+}
+function drawHeader(header, y) {
+  // Get the canvas element and its 2D context
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext("2d");
+  // Calculate the x-coordinate for the text
+  var textWidth = ctx.measureText(header).width;
+  var textX = (520 - textWidth) / 2;
+  // Draw the header using the specified y and x coordinate
+  ctx.beginPath();
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText(header, textX, y -15);
+  ctx.closePath();
+}
+function drawText(tekst, x, y) {
+  // Get the canvas element and its 2D context
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  ctx.font = "15px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText(tekst, x, y + 25);
+  ctx.closePath();
+}
+function drawHeaderAndText(header, text_left, text_right, y) {
+  drawDashedLine(y);
+  drawHeader(header, y);
+  drawText(text_left, 43, y);
+  drawText(text_right, 400, y);
+}
+
+let header = ["Når står du opp?", "Hvordan liker du å jobbe?",
+"Hvordan løser du konfliker?","Hvordan er tankeprossesen din?",
+"Når ønsker du å bli kontaktet?","Hvordan ønsker du å diskutere oppgaver?",
+"Ønsker du å jobbe etter en timeplan?"];
+let text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "Sammen"];
+let text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer"];
+
+let y2 = 150;
+for (let i = 0; i < data.length; i++) {
+    let color = colors[i];
+    let y = 150;
+    let j = 0;
+
+    drawCircle(600, y2, color, data[i].navn);
+    y2 += 20;
+  // Get the current element
+  let element = data[i];
+  
+  // Iterate over the properties of the current element
+  for (let property in element) {
+    if (property === "navn" || property === "trxid" || property === "time") continue;
+    // Call drawDashedLine() with the current y coordinate
+    let x = element[property];
+    let headerString = header[j];
+
+    drawHeaderAndText(header[j], text_left[j], text_right[j], y);
+    drawDashedLine(y);
+    drawCircle(x, y, color, "");
+    j += 1;
+    // Increment the y coordinate for the next iteration
+    y += 100;
+  }  
+}
+
 });
   
 
