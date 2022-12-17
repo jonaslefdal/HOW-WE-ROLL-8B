@@ -40,13 +40,16 @@
 
     <h1>OUTPUT</h1>
         <!--Her brukes div id center over canvas elementene for å plassere de i midten-->
-    <canvas width="1000px" height="1000px" id="canvas"></canvas>
-    <canvas width="1000px" height="1000px" id="canvas2"></canvas>
+    <canvas width="1000px" height="1200px" id="canvas"></canvas>
+    <canvas width="1000px" height="1200px" id="canvas2"></canvas>
     
 <script>
-    //Henter all daten sendt inn fra input siden fra serveren 
+    //Henter all data sendt inn fra input siden fra serveren 
     const urls = ["https://bacit.info/hwr/20221216160432-c18e33f407554587c6b501c6de85ec64.json",
                 "https://bacit.info/hwr/20221216170544-9e5322451206ca9ef7b8e459fb8c044d.json",
+                "https://bacit.info/hwr/20221217135004-e1d4e2e203625297af5b365cfb472178.json",
+                "https://bacit.info/hwr/20221217135131-c4b8e689708e3a8a166798c1380f8477.json",
+                "https://bacit.info/hwr/20221217135937-2d46e643a52ce85db82642a10d9b9b07.json",
                 
 ];
 Promise.all(urls.map(url =>
@@ -194,6 +197,7 @@ const objectLength = Object.keys(data[0]).length - 3;
         // Increment the y coordinate for the next iteration
         y += 100;
 }
+drawText("OBS! Oppdater siden for å endre farger", 590, 100);
 
 });
 
