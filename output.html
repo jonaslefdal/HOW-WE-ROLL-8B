@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="style/navbar.css">
 
         <title>WEB-RAPPORT</title>
-
+      <!--Styler de unike elementene i output filen-->
         <style>
             #canvas {
             position: absolute;
@@ -39,12 +39,14 @@
       </div>
 
     <h1>OUTPUT</h1>
-        <!--Her brukes div id center over canvas elementene for å plassere de i midten-->
+        <!--Canvas er hovedelementet hvor nesten alt blir tegnet. Canvas2 er hvor strekene blir tegnet.
+        Vi bruker position:aboslute for begge i css så vi kan bruke z-index til å tegne canvas2 under canvas.
+      Dette var på grunn av ved bruk av ett canvas ble strekene tegnet over sirkelene-->
     <canvas width="1000px" height="1200px" id="canvas"></canvas>
     <canvas width="1000px" height="1200px" id="canvas2"></canvas>
     
 <script>
-    //Henter all data sendt inn fra input siden fra serveren 
+    // Definerer en array med URL-er som brukere legger inn til json filene deres lagret i Backit
     const urls = ["https://bacit.info/hwr/20221216160432-c18e33f407554587c6b501c6de85ec64.json",
                 "https://bacit.info/hwr/20221216170544-9e5322451206ca9ef7b8e459fb8c044d.json",
                 "https://bacit.info/hwr/20221217135004-e1d4e2e203625297af5b365cfb472178.json",
@@ -52,29 +54,36 @@
                 "https://bacit.info/hwr/20221217135937-2d46e643a52ce85db82642a10d9b9b07.json",
                 
 ];
+// Sender GET-forespørsler til alle URL-ene i urls-arrayen
 Promise.all(urls.map(url =>
     fetch(url).then(resp => resp.json())
 )).then(data => {
 
+    // Lager et tomt array for fargene
     let colors = []
+    // For loop som lager data.length antall farger 
     for (let j = 0; j < data.length; j++) {
-    // Generate random red, green, and blue values
+    // Genererer "random" rød grønn og blå verdier
     let red = Math.floor(Math.random() * 256);
     let green = Math.floor(Math.random() * 256);
     let blue = Math.floor(Math.random() * 256);
+    //Gjør det om til en RBG linje som: "rbg(200,100,150)"
     let color = "rgb(" + red + "," + green + "," + blue + ")";
-    // Check if the color already exists in the array
+    // En sjekk for å ikke legge like farger inn i arrayet. 
+    // Problem her er at relativt like farger fortsatt kan legges til
     if (!colors.includes(color)) {
-        // Add the color if it doesn't exist
+        // Legger så til fargen om den ikke er lik som en annen
         colors.push(color)
     }
 }
 
+//Funksjonen for å tegne sirkeler.
 function drawCircle(x, y, color, name) {
-  // Get the canvas element and its 2D context
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext("2d");
-  // Draw the circle using the x and y coordinates and the specified color
+  // Henter canvaset og 2d elementene 
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext("2d");
+  // Tegner sirkler med spesifikke x, y kordinater, samt farge.
+  // Name brukes for å kunne printe ut et navnet til hver url.
   ctx.beginPath();
   ctx.lineWidth = 2;
   ctx.fillStyle = color;
@@ -86,11 +95,13 @@ function drawCircle(x, y, color, name) {
   ctx.fill();
   ctx.closePath();
 }
+// Funksjonen for å tegne streker under sirklene 
+// Måtte bruke 2 canvaser siden strekene ble tegnet oppå sirlene når vi brukte ett canvas
 function drawDashedLine(y) {
-  // Get the canvas element and its 2D context
-  var canvas = document.getElementById('canvas2');
-  var ctx = canvas.getContext("2d");
-  // Draw the lines
+  // Henter det andre canvaset og 2d elementene 
+  const canvas = document.getElementById('canvas2');
+  const ctx = canvas.getContext("2d");
+  // Tegner strekene med allerede spesifiserte x kordinater. Y kordinaten blir satt lengre nede
   ctx.beginPath();
   ctx.moveTo(40, y);
   ctx.lineTo(460, y);
@@ -98,108 +109,125 @@ function drawDashedLine(y) {
   ctx.stroke();
   ctx.closePath();
 }
+// Funksjon for å tegne overskriftene ovenfor hver linje 
 function drawHeader(header, y) {
-  // Get the canvas element and its 2D context
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext("2d");
-  // Calculate the x-coordinate for the text
-  var textWidth = ctx.measureText(header).width;
-  var textX = (520 - textWidth) / 2;
-  // Draw the header using the specified y and x coordinate
+  // Henter canvaset og 2d elementene 
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext("2d");
+  // Kalkulerer x verdien til teksten med å måle hvor lang den er og ta det minus 
+  // total summen så hver overskrift blir sentrert. 
+  const textWidth = ctx.measureText(header).width;
+  const textX = (520 - textWidth) / 2;
+  // Tegner overskrifter. Header er hva tekst som skal skrives og textX blir avklart over.
   ctx.beginPath();
   ctx.font = "16px Arial";
   ctx.fillStyle = "black";
   ctx.fillText(header, textX, y -15);
   ctx.closePath();
 }
-function drawText(tekst, x, y) {
-  // Get the canvas element and its 2D context
+// Funksjonen for å tegne ytterpunkter under hver linje 
+function drawText(text, x, y) {
+  // Henter canvaset og 2d elementene 
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext("2d");
+  // Tegner teksten inn. text er hvilke tekst som skal skrives. 
+  // x koordinatene blir satt i en annen funksjon
   ctx.beginPath();
   ctx.font = "15px Arial";
   ctx.fillStyle = "black";
-  ctx.fillText(tekst, x, y + 25);
+  ctx.fillText(text, x, y + 25);
   ctx.closePath();
 }
-function drawHeaderAndText(header, text_left, text_right, y) {
+// Funksjon som sammensveiser text, header og linje funksjonene så det blir mer ryddig 
+// Dette kan bli gjort for alle ligger under samme for loop så de må bli loopet samme antall ganger
+// Her blir også x verdine til text satt
+function drawHeaderAndTextAndLines(header, text_left, text_right, y) {
   drawDashedLine(y);
   drawHeader(header, y);
   drawText(text_left, 43, y);
   drawText(text_right, 400, y);
 }
 
-let header = ["Når står du opp?", "Hvordan liker du å jobbe?",
+// Lager et array for all overskriftene
+const header = ["Når står du opp?", "Hvordan liker du å jobbe?",
 "Hvor godt ønsker du å bli kjent med andre?","Hvordan ønsker du å løse konfliker?",
 "Hvordan ønsker du å ha kontakt?","Hvordan vil du diskutere oppgaver utenfor jobb",
 "Ønsker du å jobbe etter en timeplan?", "Når pleier du å legge deg?","Liker du å lære av andre eller deg selv?",
 "Når pleier du å fullføre oppgaver?"];
-let text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "21:00","Lære deg selv","God tid før fristen"];
-let text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer","02:00","Lære av andre","Rett før fristen"];
+// Lager et array for ytrepunkt som skal være på venstre siden
+const text_left = ["08:00", "Alene","Fortell alt", "Ta det opp","Oppsatt møte", "Videomøter","Normal 9 - 4", "21:00","Lære deg selv","God tid før fristen"];
+// Lager et array for ytrepunkt som skal være på høyre siden
+const text_right = ["12:00", "Med andre","Til poenget", "Gå fremmover","Ring når du vil", "Tekstmelding","Når det passer","02:00","Lære av andre","Rett før fristen"];
 
+// Y2 er startposisjonen for de første sirkelene som tegnes
 let y2 = 150;
-const xOffsets = {};
+// offset er hvor mye hver sirkel skal flyttes horisontalt for å unngå overlapping
 const offset = 6;
 
 
-// Initialize xOffsets with keys and values of all objects in the first element
-for (let object in data[0]) {
-  if (object === "navn" || object === "trxid" || object === "time") continue;
-  xOffsets[object] = {
-    value: data[0][object],
-    offset: 0,
-  };
-}
-
+// For-løkken går gjennom hvert element i data
 for (let i = 0; i < data.length; i++) {
+  // color er en tilfeldig valgt farge fra colors-arrayet
   let color = colors[i];
+  // y er startposisjonen for mange av funksjonene
   let y = 150;
 
+  // Sirkelen tegnes på 600, y2 med den valgte fargen og navnet til innsenderen
   drawCircle(600, y2, color, data[i].navn);
+  // y2 øker med 20 for hver sirkel som tegnes
   y2 += 20;
   
+  // element er det nåværende elementet i data
   let element = data[i];
-  let processedObjects = {}; // object to store processed objects for the current element
+  // processedObjects er et objekt som inneholder informasjon om hvilke elementer som allerede er behandlet
+  let processedObjects = {};
 
+  // For-løkken går gjennom hvert element i element
   for (let object in element) {
+    // Hvis elementet er navn, trxid eller time, hopper vi over dette elementet
     if (object === "navn" || object === "trxid" || object === "time") continue;
-  
-    // Check if object has already been processed for the current element
+
+  // Hvis elementet allerede er behandlet, hopper vi over dette elementet
     if (processedObjects[object]) continue;
 
+    // x er verdien til elementet konvertert til et tall
     let x = parseInt(element[object]);
 
-    // Loop through the rest of the data array to check for matching objects
+    // For-løkken går gjennom resten av elementene i data
     for (let j = i + 1; j < data.length; j++) {
-      // Get the next object
+      // nextObject er det neste elementet i data
       const nextObject = data[j];
-
-      // Check if the current object and the next object have matching properties
+  
+      // Hvis verdien til elementet er den samme som verdien til nesteObject, øker vi x med offseten
       if (element[object] === nextObject[object]) {
-        x += offset; // add the desired offset to the x position
-        break; // stop the loop once a match is found
+        x += offset; 
+        break; 
       }
     }
-
+    // Tegner sirkelene
     drawCircle(x, y, color, "");
+    // y øker med 100 for hver gang loopen kjører
     y += 100;
-    processedObjects[object] = true; // mark object as processed for the current element
+
+    processedObjects[object] = true; 
   }
 }
-
-const objectLength = Object.keys(data[0]).length - 3;
+  // Konstaterer ett elements objekt lengde -3. -3 er da objekter vi ikke vil bruke som navn, trxid og date
+  const objectLength = Object.keys(data[0]).length - 3;
+  // y er startposisjonen for mange av funksjonene
   let y = 150;
+  // for loop som looper antall ganger det er objekter i ett element minus da de 3 vi ikke vil ha med
   for (let i = 0; i < objectLength; i++) {
 
-        drawHeaderAndText(header[i], text_left[i], text_right[i], y);
-        drawDashedLine(y);
-
-        // Increment the y coordinate for the next iteration
+        // Tegner overskrifter, ytrepunkter og linjer 
+        drawHeaderAndTextAndLines(header[i], text_left[i], text_right[i], y);
+        // y øker med 100 for hver gang loopen kjører
         y += 100;
 }
+// tegner teksten "OBS! Oppdater siden for å endre farger" på skjermen 
 drawText("OBS! Oppdater siden for å endre farger", 590, 100);
-
 });
+
 
     </script>
 

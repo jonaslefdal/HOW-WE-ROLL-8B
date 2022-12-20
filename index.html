@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style/navbar.css">
 
     <title>WEB-FORM</title>
-
+    <!--Styler de unike elementene i index filen-->
     <style>
       form {
         width: 25%;
@@ -35,19 +35,6 @@
 
       }
       
-      input[type=range]:hover {
-        opacity: 1;
-      }
-      
-      input[type=range]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        background: #04AA6D;
-        cursor: pointer;
-      }
       .innertall {
           width:48%;
           margin: 1%; 
@@ -79,6 +66,9 @@
 
     <h1>INPUT</h1>
 
+    <!--Her er formen vi bruker for å samle data. Hver data kategori har sin egen slider som er navngitt
+    slider* Med stjernen mener vi tall fra 1 til så mange spørsmål det er. Dette linkes opp under med Kategori*
+    Hvor stjernen her referer til den samme slideren-->
     <form>
       <h4>Hva er ditt navn?</h4>
       <input type="text" max="10" placeholder="Ola Ullsokk" id="navn">
@@ -117,14 +107,14 @@
         <br>
         <br>
 </form>
+<!--Knappen for å sende inn formen. Vi kunne brukt <input type="submit", men dette dekker behovet vårt-->
         <button onclick=send()>SEND</button>
-<a href="" id="link"></h4>
 
   <script>
 
-// Update the current slider value (each time you drag the slider handle)
-
+// Dette er hele funksjonen som sender alle slider verdiene og navnet til Backit serveren
     function send() {
+        // Her henter vi inn hver slider value og gjør verdien om til en varibel
         var navn = document.getElementById("navn").value;
         var slider1 = document.getElementById("slider1").value;
         var slider2 = document.getElementById("slider2").value;
@@ -137,6 +127,10 @@
         var slider9 = document.getElementById("slider9").value;
         var slider10 = document.getElementById("slider10").value;
        
+        //"const json" er en variabel som defineres for å holde på data som skal sendes til serveren 
+        //gjennom en POST-forespørsel. Det er nødvendig å ha denne variabelen for å kunne legge til dataen 
+        //i body for forespørselen.
+
           const json = {
             navn: navn,
               kategori1: slider1,
@@ -151,24 +145,36 @@
               kategori10: slider10,
         };
 
+        // Sender data til serveren gjennom en POST-forespørsel
         fetch("https://bacit.info/", {
             method: "POST",
+            // Setter innholdstypen til "application/json" i header for å indikere at body inneholder JSON-data
             headers: {
                 "Content-Type": "application/json",
             },
+            // Konverterer data til JSON-format og legger det i body for å sende med forespørselen
             body: JSON.stringify(json),
         }).then((response) => response.json())
   .then((data) => {
-    console.log('Success:', data);
-    //console.log('Lenke:', 'https://bacit.info/hwr/'+data.time+'-'+data.trxid+'.json'); 
+    // Fjernet consol.log funksjoner ettersom vi ikke trenger de i slutt resultate
+     
+    // Lager en variabel med lenken til resultatsiden, basert på data fra serveren
     const lenke = ('Lenke:', 'https://bacit.info/hwr/'+data.time+'-'+data.trxid+'.json');
+    // Endrer href-attributtet til lenke-variabelen på elementet med id "link"
     document.getElementById("link").href = lenke;
+    // Endrer innholdet til lenke-variabelen på elementet med id "link"
     document.getElementById('link').innerHTML = lenke;
-    console.log(lenke);
     
   })
   .catch((error) => {
+    // Håndterer feil hvis forespørselen mislyktes
+    //logges først til konsollen så devs kan se mer detaljer feil
     console.error('Error:', error);
+    // så printes det istednfor lenken så en bruker kan se at det feilet 
+    document.getElementById('link').innerHTML = "Feil! Dette fungerte ikke";
+    // Endrer href til seg selv siden dette ikke fungerte 
+    document.getElementById("link").href = _Self;
+
   });
 };
     
