@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="style/navbar.css">
 
         <title>WEB-RAPPORT</title>
-
+      <!--Styler de unike elementene i output filen-->
         <style>
             #canvas {
             position: absolute;
@@ -39,12 +39,14 @@
       </div>
 
     <h1>OUTPUT</h1>
-        <!--Her brukes div id center over canvas elementene for å plassere de i midten-->
+        <!--Canvas er hovedelementet hvor nesten alt blir tegnet. Canvas2 er hvor strekene blir tegnet.
+        Vi bruker position:aboslute for begge i css så vi kan bruke z-index til å tegne canvas2 under canvas.
+      Dette var på grunn av ved bruk av ett canvas ble strekene tegnet over sirkelene-->
     <canvas width="1000px" height="1200px" id="canvas"></canvas>
     <canvas width="1000px" height="1200px" id="canvas2"></canvas>
     
 <script>
-    //Henter all data sendt inn fra input siden fra serveren 
+    // Definerer en array med URL-er som brukere legger inn til json filene deres lagret i Backit
     const urls = ["https://bacit.info/hwr/20221216160432-c18e33f407554587c6b501c6de85ec64.json",
                 "https://bacit.info/hwr/20221216170544-9e5322451206ca9ef7b8e459fb8c044d.json",
                 "https://bacit.info/hwr/20221217135004-e1d4e2e203625297af5b365cfb472178.json",
@@ -52,6 +54,7 @@
                 "https://bacit.info/hwr/20221217135937-2d46e643a52ce85db82642a10d9b9b07.json",
                 
 ];
+// Sender GET-forespørsler til alle URL-ene i urls-arrayen
 Promise.all(urls.map(url =>
     fetch(url).then(resp => resp.json())
 )).then(data => {
